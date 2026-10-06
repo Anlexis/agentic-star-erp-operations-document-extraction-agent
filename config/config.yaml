@@ -1,0 +1,19 @@
+# Runtime parameters — loaded by AgentRegistry, passed as Graph(config=...).
+# Separate from config/agent.yaml (the static manifest).
+
+max_retry: 3
+timeout_s: 30
+
+# ERP cross-check tuning. Forwarded into the inner workflow graph by the main
+# slot and seeded into node state, because node execute() methods receive no
+# config argument — a value declared here and not threaded through would be
+# read by nothing.
+erp:
+  # Absolute tolerance, in the document's currency unit, when reconciling the
+  # summed line totals against the document total. A caller may narrow or widen
+  # it per request via input_context.erp_reference.total_tolerance.
+  total_tolerance: 0.01
+  # Upper bound on line items taken from one document. A document is caller
+  # supplied and line items render into the delivered payload, so the count is
+  # capped rather than left to the size of the input.
+  max_line_items: 1000
